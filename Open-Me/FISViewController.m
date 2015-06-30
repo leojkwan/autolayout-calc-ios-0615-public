@@ -10,6 +10,10 @@
 
 @interface FISViewController ()
 @property (strong, nonatomic) IBOutlet UIView *buttonsContainer;
+@property (weak, nonatomic) IBOutlet UIView *outputContainer;
+@property (weak, nonatomic) IBOutlet UITextField *outputTextField;
+
+
 @property (strong, nonatomic) IBOutlet UIButton *oneButton;
 @property (strong, nonatomic) IBOutlet UIButton *twoButton;
 @property (strong, nonatomic) IBOutlet UIButton *threeButton;
@@ -34,8 +38,46 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    [self setLongFormConstraints];
+    
+    
+    
+    
+    
 	// Do any additional setup after loading the view, typically from a nib.
 }
+
+
+-(void)setLongFormConstraints {
+    [self.buttonsContainer removeConstraints:self.view.constraints];
+    self.buttonsContainer.translatesAutoresizingMaskIntoConstraints = NO;
+    
+    [self.outputContainer removeConstraints:self.view.constraints];
+    self.outputContainer.translatesAutoresizingMaskIntoConstraints = NO;
+    
+    self.view.translatesAutoresizingMaskIntoConstraints = NO;
+    [self.view removeConstraints:self.view.constraints];
+    
+    
+    
+    
+    NSDictionary *containers = @{@"buttonsContainer":self.buttonsContainer, @"outputContainer":self.outputContainer};
+    
+    NSArray *topContainerConstraint = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[outputContainer]|" options:0 metrics:nil views:containers];
+
+    NSArray *bottomContainerConstraint = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[buttonsContainer]|" options:0 metrics:nil views:containers];
+
+    
+    NSArray *containerConstraints = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|[outputContainer(buttonsContainer)][buttonsContainer]|" options:0 metrics:nil views:containers];
+    
+    [self.view addConstraints:containerConstraints];
+    [self.view addConstraints:bottomContainerConstraint];
+    [self.view addConstraints:topContainerConstraint];
+
+
+}
+
 
 - (void)didReceiveMemoryWarning
 {
